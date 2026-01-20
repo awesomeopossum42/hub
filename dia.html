@@ -1,0 +1,993 @@
+<!-- dia.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Capacitación 2026 | 2. Mi Día a Día</title>
+
+  <!-- Google Charts -->
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <!-- D3 -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <!-- Icons -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root{
+      --bg: #ffffff;
+      --ink: #12324a;
+      --muted: #6b7b88;
+
+      --card1: #31c66a;
+      --card2: #2bb3b3;
+      --card3: #1f6fd6;
+
+      --shadow: 0 16px 40px rgba(10,20,40,.12);
+      --shadow2: 0 10px 24px rgba(10,20,40,.10);
+
+      --radius: 16px;
+      --radius2: 18px;
+
+      --track: #e7edf4;
+      --progress: #2bb3b3;
+
+      --focus: rgba(31,111,214,.25);
+
+      --soft: #f6f9fc;
+      --border: #e9eff6;
+    }
+
+    *{ box-sizing: border-box; }
+    body{
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    .wrap{
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 22px 20px 26px;
+    }
+
+    .panel{
+      width: min(1100px, 100%);
+      padding: 8px;
+    }
+
+    /* Top row: back + search */
+    .topbar{
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: center;
+      margin: 8px 0 18px;
+    }
+
+    .backBtn{
+      display: inline-grid;
+      grid-auto-flow: column;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #fff;
+      box-shadow: var(--shadow2);
+      cursor: pointer;
+      user-select: none;
+      color: #2a3b4d;
+      font-weight: 700;
+      font-size: 13px;
+      transition: transform .12s ease;
+      white-space: nowrap;
+    }
+    .backBtn:active{ transform: scale(.98); }
+    .backBtn:focus-visible{
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .search{
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 52px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow2);
+      border: 1px solid #eef2f7;
+      background: #fff;
+    }
+
+    .search input{
+      padding: 14px 16px;
+      border: 0;
+      outline: none;
+      font-size: 14px;
+      color: var(--ink);
+    }
+    .search input::placeholder{ color: #9aa7b3; }
+
+    .search button{
+      border: 0;
+      cursor: pointer;
+      background: #2e78df;
+      display: grid;
+      place-items: center;
+      transition: transform .12s ease;
+    }
+    .search button:active{ transform: scale(.98); }
+    .search button:focus-visible{
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+    .search button i{ color: #fff; font-size: 16px; }
+
+    /* Hero */
+    .hero{
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      align-items: stretch;
+      margin: 10px 0 18px;
+    }
+
+    .heroCard{
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(43,179,179,.12), rgba(31,111,214,.08));
+      padding: 18px 18px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .heroCard::before{
+      content:"";
+      position:absolute;
+      inset:-70px -70px auto auto;
+      width: 180px;
+      height: 180px;
+      background: rgba(43,179,179,.15);
+      border-radius: 999px;
+      transform: rotate(18deg);
+      pointer-events:none;
+    }
+
+    .heroTitle{
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .badge{
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: rgba(43,179,179,.18);
+      border: 1px solid rgba(43,179,179,.22);
+    }
+    .badge i{ color: #1e7e83; font-size: 18px; }
+
+    h1{
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: .2px;
+      color: #13334b;
+    }
+    .subtitle{
+      margin: 0;
+      color: #5f7080;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .sideCard{
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 14px 14px 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .kpiRow{
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 10px;
+      border-radius: 14px;
+      background: var(--soft);
+      border: 1px solid #eef3f8;
+    }
+    .kpiRow .label{
+      font-size: 12px;
+      color: #6f7f8c;
+      font-weight: 700;
+    }
+    .kpiRow .value{
+      font-size: 12px;
+      font-weight: 800;
+      color: #2a3b4d;
+    }
+    .miniArea{
+      width: 100%;
+      height: 140px;
+    }
+
+    /* Content grid */
+    .grid{
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 18px;
+      align-items: start;
+      margin-top: 10px;
+    }
+
+    .section{
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 16px 16px 12px;
+    }
+
+    .sectionHeader{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .sectionHeader h2{
+      margin: 0;
+      font-size: 14px;
+      letter-spacing: .2px;
+      color: #1c2f3f;
+    }
+
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: #4b5c6b;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      transition: transform .12s ease;
+    }
+    .pill:active{ transform: scale(.98); }
+    .pill i{ color: #2e78df; }
+
+    /* Menu list */
+    .menu{
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .item{
+      border: 1px solid var(--border);
+      background: var(--soft);
+      border-radius: 16px;
+      padding: 12px 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+      display: grid;
+      grid-template-columns: 34px 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .item:active{ transform: scale(.99); }
+    .item:focus-visible{
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .dot{
+      width: 34px;
+      height: 34px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: rgba(43,179,179,.16);
+      border: 1px solid rgba(43,179,179,.20);
+      color: #1e7e83;
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .itemTitle{
+      margin: 0;
+      font-size: 13px;
+      font-weight: 800;
+      color: #203244;
+    }
+    .itemSub{
+      margin: 3px 0 0;
+      font-size: 12px;
+      color: #728291;
+      line-height: 1.35;
+    }
+
+    .arrow{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: #2a3b4d;
+    }
+
+    /* Right side */
+    .sideStack{
+      display: grid;
+      gap: 16px;
+    }
+
+    .directory{
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: #fff;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      user-select: none;
+      transition: transform .12s ease;
+    }
+    .directory:active{ transform: scale(.99); }
+    .dirIcon{
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: #2e78df;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 20px rgba(46,120,223,.25);
+    }
+    .dirIcon i{ color:#fff; font-size: 18px; }
+    .dirText{
+      line-height: 1.05;
+      color: #2a3b4d;
+      font-weight: 800;
+      font-size: 13px;
+    }
+    .dirText span{ display:block; font-weight: 800; }
+
+    .note{
+      border-radius: var(--radius2);
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(43,179,179,.08), rgba(31,111,214,.06));
+      padding: 14px 14px 12px;
+      box-shadow: var(--shadow);
+    }
+    .note h3{
+      margin: 0 0 6px;
+      font-size: 13px;
+      color: #1c2f3f;
+    }
+    .note p{
+      margin: 0;
+      font-size: 12px;
+      color: #6a7a87;
+      line-height: 1.45;
+    }
+
+    /* Modal */
+    .modalOverlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(10,20,40,.42);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 50;
+    }
+    .modal{
+      width: min(920px, 100%);
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid #eef2f7;
+      box-shadow: 0 24px 70px rgba(10,20,40,.25);
+      overflow: hidden;
+    }
+    .modalTop{
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 14px;
+      border-bottom: 1px solid var(--border);
+      background: #fbfdff;
+    }
+    .modalTop strong{
+      font-size: 13px;
+      color: #1c2f3f;
+    }
+    .closeBtn{
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: transform .12s ease;
+    }
+    .closeBtn:active{ transform: scale(.98); }
+
+    .modalBody{
+      padding: 14px 14px 16px;
+      display: grid;
+      gap: 12px;
+    }
+    .modalBody h4{
+      margin: 0;
+      font-size: 14px;
+      color: #1c2f3f;
+    }
+    .modalBody p{
+      margin: 0;
+      font-size: 12px;
+      color: #6a7a87;
+      line-height: 1.5;
+    }
+
+    .modalGrid{
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .cardLike{
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--soft);
+      padding: 12px;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+      .grid{ grid-template-columns: 1fr; }
+      .sideCard{ order: 2; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <main class="panel" aria-label="Página 2 Mi Día a Día">
+
+      <!-- Top -->
+      <div class="topbar">
+        <button class="backBtn" id="backBtn" type="button" aria-label="Regresar al inicio">
+          <i class="fa-solid fa-arrow-left"></i>
+          Inicio
+        </button>
+
+        <form class="search" id="searchForm" role="search" aria-label="Buscar en la página">
+          <input id="q" type="search" placeholder="¿Qué necesitas resolver hoy?" autocomplete="off" />
+          <button type="submit" aria-label="Buscar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+      </div>
+
+      <!-- Hero -->
+      <section class="hero" aria-label="Encabezado de la sección">
+        <div class="heroCard">
+          <div class="heroTitle">
+            <div class="badge" aria-hidden="true"><i class="fa-solid fa-gear"></i></div>
+            <div>
+              <h1>2. ¿Cómo hago mi trabajo paso a paso?</h1>
+              <p class="subtitle">Procesos, herramientas y guías para ejecutar el día a día con claridad y consistencia.</p>
+            </div>
+          </div>
+
+          <div class="kpiRow" aria-label="Progreso">
+            <div>
+              <div class="label">Progreso de esta sección</div>
+              <div class="value"><span id="pctTxt">35%</span> completado</div>
+            </div>
+            <div style="width: 210px;">
+              <div style="height:8px;border-radius:999px;background:var(--track);overflow:hidden;">
+                <div id="progressFill" style="height:100%;width:35%;background:linear-gradient(90deg,var(--card2),var(--card3));border-radius:999px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="sideCard" aria-label="Panel lateral de estado">
+          <div class="kpiRow">
+            <div>
+              <div class="label">Sección actual</div>
+              <div class="value">Mi Día a Día</div>
+            </div>
+            <div class="value"><i class="fa-solid fa-location-dot" style="color:#2e78df;"></i></div>
+          </div>
+
+          <div class="kpiRow">
+            <div>
+              <div class="label">Objetivo</div>
+              <div class="value">Ejecución paso a paso</div>
+            </div>
+            <div class="value"><i class="fa-solid fa-route" style="color:#2bb3b3;"></i></div>
+          </div>
+
+          <!-- Google Charts area (mini) -->
+          <div id="miniArea" class="miniArea" aria-label="Gráfico de actividad"></div>
+        </aside>
+      </section>
+
+      <!-- Content -->
+      <section class="grid" aria-label="Contenido principal">
+        <div class="section" aria-label="Menú de contenidos">
+          <div class="sectionHeader">
+            <h2>Contenido</h2>
+            <div class="pill" id="openAll" role="button" tabindex="0" aria-label="Abrir vista general">
+              <i class="fa-solid fa-layer-group"></i> Vista general
+            </div>
+          </div>
+
+          <!-- NO omitir títulos/subtítulos del usuario -->
+          <ul class="menu" id="menu">
+            <li class="item" tabindex="0" data-topic="Proceso comercial">
+              <div class="dot">1</div>
+              <div>
+                <p class="itemTitle">Proceso comercial</p>
+                <p class="itemSub">Prospección, seguimiento, cierre y handoff.</p>
+              </div>
+              <div class="arrow" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></div>
+            </li>
+
+            <li class="item" tabindex="0" data-topic="Proceso operativo">
+              <div class="dot">2</div>
+              <div>
+                <p class="itemTitle">Proceso operativo</p>
+                <p class="itemSub">Ejecución, coordinación y control del servicio.</p>
+              </div>
+              <div class="arrow" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></div>
+            </li>
+
+            <li class="item" tabindex="0" data-topic="Catálogo de servicios / productos">
+              <div class="dot">3</div>
+              <div>
+                <p class="itemTitle">Catálogo de servicios / productos</p>
+                <p class="itemSub">Qué ofrecemos y cómo se configura.</p>
+              </div>
+              <div class="arrow" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></div>
+            </li>
+
+            <li class="item" tabindex="0" data-topic="Herramientas de trabajo">
+              <div class="dot">4</div>
+              <div>
+                <p class="itemTitle">Herramientas de trabajo</p>
+                <p class="itemSub">Plantillas, accesos, repositorios y checks.</p>
+              </div>
+              <div class="arrow" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></div>
+            </li>
+
+            <li class="item" tabindex="0" data-topic="Habilitador de espacios">
+              <div class="dot">5</div>
+              <div>
+                <p class="itemTitle">Habilitador de espacios</p>
+                <p class="itemSub">Cómo habilitar, reservar o coordinar espacios.</p>
+              </div>
+              <div class="arrow" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></div>
+            </li>
+
+            <li class="item" tabindex="0" data-topic="Salesforce">
+              <div class="dot">6</div>
+              <div>
+                <p class="itemTitle">Salesforce</p>
+                <p class="itemSub">Registro, etapas, calidad de datos y buenas prácticas.</p>
+              </div>
+              <div class="arrow" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></div>
+            </li>
+          </ul>
+        </div>
+
+        <aside class="sideStack" aria-label="Accesos laterales">
+          <div class="directory" id="directoryBtn" role="button" tabindex="0" aria-label="Abrir Directorio de Contactos Clave">
+            <div class="dirIcon" aria-hidden="true"><i class="fa-solid fa-phone"></i></div>
+            <div class="dirText">
+              Directorio<br/>
+              <span>Contactos Clave</span>
+            </div>
+          </div>
+
+          <div class="note" aria-label="Nota">
+            <h3>Tip de uso</h3>
+            <p>Si quieres, cada tema puede abrir un “paso a paso” con checklist, links y una mini visual de estado. Hoy viene listo como plantilla.</p>
+          </div>
+        </aside>
+      </section>
+
+      <!-- Modal -->
+      <div class="modalOverlay" id="modalOverlay" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+          <div class="modalTop">
+            <strong id="modalTitle">Detalle</strong>
+            <button class="closeBtn" id="closeBtn" type="button" aria-label="Cerrar">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="modalBody">
+            <div class="modalGrid">
+              <div class="cardLike">
+                <h4 id="topicTitle">Tema</h4>
+                <p id="topicBody">Placeholder de contenido. Aquí puedes poner pasos, criterios, definiciones y links.</p>
+                <div id="checklist" style="margin-top:10px;"></div>
+              </div>
+
+              <div class="cardLike">
+                <h4>Mini visual (D3)</h4>
+                <p>Un “step meter” para darle estructura al proceso.</p>
+                <div id="d3Mini" style="width:100%;height:170px;"></div>
+              </div>
+            </div>
+
+            <div class="cardLike">
+              <h4>Recursos</h4>
+              <p>Placeholder: links a SOPs, plantillas, policy docs o videos cortos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // ============
+    // Config
+    // ============
+    const PAGE_PROGRESS = 35; // editable
+
+    // Checklist por tema (placeholder, puedes reemplazar por tu proceso real)
+    const CHECKS = {
+      "Proceso comercial": [
+        "Identificar oportunidad y calificarla",
+        "Definir siguiente paso y fecha",
+        "Actualizar etapa y notas en el CRM",
+        "Alinear handoff con operación"
+      ],
+      "Proceso operativo": [
+        "Confirmar requerimientos",
+        "Coordinar responsables",
+        "Ejecutar servicio / evento",
+        "Cierre y retroalimentación"
+      ],
+      "Catálogo de servicios / productos": [
+        "Seleccionar servicio / producto",
+        "Validar condiciones y restricciones",
+        "Configurar entregables",
+        "Confirmar precio / cotización"
+      ],
+      "Herramientas de trabajo": [
+        "Accesos y permisos",
+        "Plantillas oficiales",
+        "Fuentes de datos y reportes",
+        "Canales de soporte"
+      ],
+      "Habilitador de espacios": [
+        "Validar disponibilidad",
+        "Reservar o bloquear",
+        "Coordinar logística",
+        "Confirmar checklist de entrega"
+      ],
+      "Salesforce": [
+        "Registrar actividad",
+        "Mantener etapas consistentes",
+        "Cuidar calidad de datos",
+        "Medir pipeline y conversión"
+      ]
+    };
+
+    const TOPICS = {
+      "Proceso comercial": { body: "Placeholder: describe el flujo comercial de punta a punta, con etapas, SLAs y criterios." },
+      "Proceso operativo": { body: "Placeholder: describe ejecución operativa, roles, entregables, y control de calidad." },
+      "Catálogo de servicios / productos": { body: "Placeholder: define el catálogo y cómo consultar/configurar cada opción." },
+      "Herramientas de trabajo": { body: "Placeholder: lista herramientas, accesos, y para qué sirve cada una." },
+      "Habilitador de espacios": { body: "Placeholder: guía para habilitar o coordinar espacios (reservas, logística, responsables)." },
+      "Salesforce": { body: "Placeholder: guía de uso (estándares de registro, etapas, higiene de datos, reportes)." }
+    };
+
+    // ============
+    // Nav
+    // ============
+    document.getElementById("backBtn").addEventListener("click", () => window.location.href = "index.html");
+
+    // ============
+    // Search (simple)
+    // ============
+    document.getElementById("searchForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const q = (document.getElementById("q").value || "").trim().toLowerCase();
+      if(!q) return;
+
+      const keys = Object.keys(TOPICS);
+      const hit = keys.find(k => k.toLowerCase().includes(q));
+      if(hit) openTopic(hit);
+      else alert("No encontré ese tema en esta página (placeholder).");
+    });
+
+    // ============
+    // Progress (D3)
+    // ============
+    function setProgress(p){
+      const clamped = Math.max(0, Math.min(100, p));
+      d3.select("#pctTxt").text(clamped.toFixed(0) + "%");
+      d3.select("#progressFill")
+        .transition()
+        .duration(650)
+        .ease(d3.easeCubicOut)
+        .style("width", clamped + "%");
+    }
+    setProgress(PAGE_PROGRESS);
+
+    // ============
+    // Hover lift
+    // ============
+    d3.selectAll(".item")
+      .on("mouseenter", function(){
+        d3.select(this)
+          .transition().duration(140)
+          .style("transform", "translateY(-3px)")
+          .style("box-shadow", "0 14px 30px rgba(10,20,40,.10)")
+          .style("background", "#ffffff");
+      })
+      .on("mouseleave", function(){
+        d3.select(this)
+          .transition().duration(140)
+          .style("transform", "translateY(0px)")
+          .style("box-shadow", "none")
+          .style("background", null);
+      });
+
+    // Open topic handlers
+    document.querySelectorAll(".item").forEach(li => {
+      li.addEventListener("click", () => openTopic(li.dataset.topic));
+      li.addEventListener("keydown", (e) => {
+        if(e.key === "Enter" || e.key === " "){
+          e.preventDefault();
+          openTopic(li.dataset.topic);
+        }
+      });
+    });
+
+    // ============
+    // Modal
+    // ============
+    const overlay = document.getElementById("modalOverlay");
+    const closeBtn = document.getElementById("closeBtn");
+
+    function openModal(){
+      overlay.style.display = "flex";
+      overlay.setAttribute("aria-hidden", "false");
+      setTimeout(() => closeBtn.focus(), 0);
+    }
+    function closeModal(){
+      overlay.style.display = "none";
+      overlay.setAttribute("aria-hidden", "true");
+      d3.select("#d3Mini").selectAll("*").remove();
+      document.getElementById("checklist").innerHTML = "";
+    }
+
+    overlay.addEventListener("click", (e) => {
+      if(e.target === overlay) closeModal();
+    });
+    closeBtn.addEventListener("click", closeModal);
+    window.addEventListener("keydown", (e) => {
+      if(e.key === "Escape" && overlay.style.display === "flex") closeModal();
+    });
+
+    function openTopic(topic){
+      const t = TOPICS[topic] || { body: "Placeholder." };
+      document.getElementById("modalTitle").textContent = topic;
+      document.getElementById("topicTitle").textContent = topic;
+      document.getElementById("topicBody").textContent = t.body;
+
+      renderChecklist(topic);
+      openModal();
+      drawStepMeter(topic);
+    }
+
+    document.getElementById("openAll").addEventListener("click", () => {
+      openTopic("Proceso comercial");
+    });
+
+    // Directory quick open (placeholder)
+    document.getElementById("directoryBtn").addEventListener("click", () => {
+      alert("Directorio de Contactos Clave (placeholder). Si quieres, lo conectamos a directorio.html o a un modal con tabla.");
+    });
+
+    // ============
+    // Checklist renderer (simple)
+    // ============
+    function renderChecklist(topic){
+      const list = CHECKS[topic] || [];
+      const host = document.getElementById("checklist");
+      host.innerHTML = "";
+
+      if(list.length === 0) return;
+
+      const box = document.createElement("div");
+      box.style.marginTop = "10px";
+      box.style.border = "1px solid #e9eff6";
+      box.style.borderRadius = "14px";
+      box.style.background = "#fff";
+      box.style.padding = "10px";
+
+      const title = document.createElement("div");
+      title.style.fontSize = "12px";
+      title.style.fontWeight = "800";
+      title.style.color = "#2a3b4d";
+      title.style.marginBottom = "8px";
+      title.textContent = "Checklist (placeholder)";
+      box.appendChild(title);
+
+      list.forEach((t, idx) => {
+        const row = document.createElement("label");
+        row.style.display = "grid";
+        row.style.gridTemplateColumns = "18px 1fr";
+        row.style.gap = "10px";
+        row.style.alignItems = "start";
+        row.style.padding = "6px 0";
+        row.style.fontSize = "12px";
+        row.style.color = "#5f7080";
+
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.style.marginTop = "2px";
+        cb.addEventListener("change", () => {
+          // solo demo: podrías persistir en localStorage
+          cb.parentElement.style.opacity = cb.checked ? ".75" : "1";
+        });
+
+        const text = document.createElement("div");
+        text.textContent = (idx+1) + ". " + t;
+
+        row.appendChild(cb);
+        row.appendChild(text);
+        box.appendChild(row);
+      });
+
+      host.appendChild(box);
+    }
+
+    // ============
+    // D3: step meter (6 steps, llenado por tema)
+    // ============
+    function drawStepMeter(seed){
+      const el = document.getElementById("d3Mini");
+      const w = el.clientWidth;
+      const h = 160;
+
+      const svg = d3.select(el).append("svg")
+        .attr("width", w)
+        .attr("height", h);
+
+      const steps = 6;
+      const pad = 12;
+      const barH = 14;
+      const gap = 10;
+
+      // pseudo-random stable completion count (0..6) per topic
+      const done = (seed.length * 3) % (steps + 1);
+
+      const x0 = pad;
+      const y0 = 22;
+
+      svg.append("text")
+        .attr("x", pad)
+        .attr("y", 16)
+        .attr("font-size", 12)
+        .attr("font-weight", 800)
+        .attr("fill", "#2a3b4d")
+        .text("Step meter");
+
+      const scale = d3.scaleLinear()
+        .domain([0, steps])
+        .range([x0, w - pad]);
+
+      // Background segments
+      for(let i=0;i<steps;i++){
+        svg.append("rect")
+          .attr("x", scale(i))
+          .attr("y", y0)
+          .attr("width", (scale(i+1)-scale(i)) - gap)
+          .attr("height", barH)
+          .attr("rx", 8)
+          .attr("fill", "#e7edf4");
+      }
+
+      // Foreground segments animated
+      for(let i=0;i<done;i++){
+        svg.append("rect")
+          .attr("x", scale(i))
+          .attr("y", y0)
+          .attr("width", 0)
+          .attr("height", barH)
+          .attr("rx", 8)
+          .attr("fill", "#2bb3b3")
+          .transition()
+          .delay(80*i)
+          .duration(320)
+          .ease(d3.easeCubicOut)
+          .attr("width", (scale(i+1)-scale(i)) - gap);
+      }
+
+      svg.append("text")
+        .attr("x", pad)
+        .attr("y", 60)
+        .attr("font-size", 11)
+        .attr("font-weight", 700)
+        .attr("fill", "#6b7b88")
+        .text(`Completado: ${done}/${steps}`);
+    }
+
+    // ============
+    // Google Charts mini area (actividad demo)
+    // ============
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(drawMiniArea);
+
+    function drawMiniArea(){
+      const data = google.visualization.arrayToDataTable([
+        ["Día", "Actividad"],
+        ["Lun",  3],
+        ["Mar",  5],
+        ["Mié",  4],
+        ["Jue",  6],
+        ["Vie",  4],
+        ["Sáb",  2],
+        ["Dom",  1]
+      ]);
+
+      const options = {
+        legend: { position: "none" },
+        backgroundColor: "transparent",
+        chartArea: { left: 10, top: 10, width: "90%", height: "80%" },
+        hAxis: { gridlines: { color: "transparent" }, baselineColor: "transparent", textStyle: { color: "#6b7b88", fontSize: 10 } },
+        vAxis: { gridlines: { color: "transparent" }, baselineColor: "transparent", textPosition: "none" },
+        tooltip: { trigger: "none" }
+      };
+
+      const chart = new google.visualization.AreaChart(document.getElementById("miniArea"));
+      chart.draw(data, options);
+      window.addEventListener("resize", () => chart.draw(data, options), { passive: true });
+    }
+  </script>
+</body>
+</html>
