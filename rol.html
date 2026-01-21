@@ -1,4 +1,4 @@
-<!-- rol.html -->
+<!-- rol.html (ajustado) -->
 <!doctype html>
 <html lang="es">
 <head>
@@ -30,9 +30,6 @@
       --radius: 16px;
       --radius2: 18px;
 
-      --track: #e7edf4;
-      --progress: #2bb3b3;
-
       --focus: rgba(31,111,214,.25);
 
       --soft: #f6f9fc;
@@ -60,7 +57,7 @@
       padding: 8px;
     }
 
-    /* Top row: back + search */
+    /* Top row: back + help */
     .topbar{
       display: grid;
       grid-template-columns: auto 1fr;
@@ -84,7 +81,7 @@
       color: #2a3b4d;
       font-weight: 700;
       font-size: 13px;
-      transition: transform .12s ease, box-shadow .12s ease;
+      transition: transform .12s ease;
       white-space: nowrap;
     }
     .backBtn:active{ transform: scale(.98); }
@@ -93,45 +90,44 @@
       outline-offset: 2px;
     }
 
-    .search{
-      width: 100%;
+    .helpBtn{
+      justify-self: end;
       display: grid;
-      grid-template-columns: 1fr 52px;
+      grid-template-columns: 44px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 12px;
       border-radius: 14px;
-      overflow: hidden;
-      box-shadow: var(--shadow2);
-      border: 1px solid #eef2f7;
-      background: #fff;
-    }
-
-    .search input{
-      padding: 14px 16px;
-      border: 0;
-      outline: none;
-      font-size: 14px;
-      color: var(--ink);
-    }
-    .search input::placeholder{ color: #9aa7b3; }
-
-    .search button{
-      border: 0;
       cursor: pointer;
+      user-select: none;
+      transition: transform .12s ease;
+      width: fit-content;
+    }
+    .helpBtn:active{ transform: scale(.99); }
+
+    .helpIcon{
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
       background: #2e78df;
       display: grid;
       place-items: center;
-      transition: transform .12s ease;
+      box-shadow: 0 10px 20px rgba(46,120,223,.25);
     }
-    .search button:active{ transform: scale(.98); }
-    .search button:focus-visible{
-      outline: 3px solid var(--focus);
-      outline-offset: 2px;
+    .helpIcon i{ color:#fff; font-size: 18px; }
+
+    .helpText{
+      line-height: 1.05;
+      color: #2a3b4d;
+      font-weight: 800;
+      font-size: 13px;
     }
-    .search button i{ color: #fff; font-size: 16px; }
+    .helpText span{ display:block; font-weight: 800; }
 
     /* Page header */
     .hero{
       display: grid;
-      grid-template-columns: 1.2fr .8fr;
+      grid-template-columns: 1fr;
       gap: 18px;
       align-items: stretch;
       margin: 10px 0 18px;
@@ -163,7 +159,7 @@
       grid-template-columns: 44px 1fr;
       gap: 12px;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 2px;
     }
     .badge{
       width: 44px;
@@ -183,45 +179,10 @@
       color: #13334b;
     }
     .subtitle{
-      margin: 0;
+      margin: 6px 0 0;
       color: #5f7080;
       font-size: 13px;
       line-height: 1.35;
-    }
-
-    .sideCard{
-      border-radius: var(--radius2);
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-      background: #fff;
-      padding: 14px 14px 12px;
-      display: grid;
-      gap: 10px;
-    }
-
-    .kpiRow{
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
-      padding: 10px 10px;
-      border-radius: 14px;
-      background: var(--soft);
-      border: 1px solid #eef3f8;
-    }
-    .kpiRow .label{
-      font-size: 12px;
-      color: #6f7f8c;
-      font-weight: 700;
-    }
-    .kpiRow .value{
-      font-size: 12px;
-      font-weight: 800;
-      color: #2a3b4d;
-    }
-    .miniDonut{
-      width: 100%;
-      height: 140px;
     }
 
     /* Content grid */
@@ -274,7 +235,7 @@
     .pill:active{ transform: scale(.98); }
     .pill i{ color: #2e78df; }
 
-    /* Menu list (NO omitir títulos/subtítulos del usuario) */
+    /* Menu list */
     .menu{
       display: grid;
       gap: 10px;
@@ -340,44 +301,136 @@
       color: #2a3b4d;
     }
 
-    /* Right: Directory + quick actions */
+    /* Right: Directorio por área */
     .sideStack{
       display: grid;
       gap: 16px;
     }
 
-    .directory{
-      display: grid;
-      grid-template-columns: 44px 1fr;
-      gap: 12px;
-      align-items: center;
-      padding: 12px 12px;
-      border-radius: 16px;
+    .dirPanel{
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
       border: 1px solid var(--border);
       background: #fff;
-      box-shadow: var(--shadow);
-      cursor: pointer;
-      user-select: none;
-      transition: transform .12s ease;
+      padding: 14px 14px 12px;
     }
-    .directory:active{ transform: scale(.99); }
-    .dirIcon{
-      width: 44px;
-      height: 44px;
-      border-radius: 999px;
-      background: #2e78df;
+
+    .dirHeader{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .dirHeader h3{
+      margin: 0;
+      font-size: 13px;
+      color: #1c2f3f;
+      letter-spacing: .2px;
+    }
+
+    .select{
+      width: 100%;
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--soft);
+      border-radius: 14px;
+      padding: 12px 38px 12px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #2a3b4d;
+      outline: none;
+      cursor: pointer;
+    }
+    .select:focus-visible{
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .selectWrap{
+      position: relative;
+    }
+    .selectWrap i{
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #2a3b4d;
+      opacity: .7;
+      pointer-events: none;
+    }
+
+    .cardsMini{
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+      max-height: 520px;
+      overflow: auto;
+      padding-right: 6px;
+    }
+    .cardsMini::-webkit-scrollbar{ width: 8px; }
+    .cardsMini::-webkit-scrollbar-thumb{ background: #d7e1ec; border-radius: 999px; }
+
+    .contactCard{
+      border: 1px solid var(--border);
+      background: var(--soft);
+      border-radius: 16px;
+      padding: 12px;
+      display: grid;
+      gap: 6px;
+    }
+    .contactTop{
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+    .avatar{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
       display: grid;
       place-items: center;
-      box-shadow: 0 10px 20px rgba(46,120,223,.25);
+      background: rgba(31,111,214,.14);
+      border: 1px solid rgba(31,111,214,.18);
+      color: #1f6fd6;
+      font-weight: 900;
+      font-size: 12px;
     }
-    .dirIcon i{ color:#fff; font-size: 18px; }
-    .dirText{
-      line-height: 1.05;
-      color: #2a3b4d;
+    .name{
+      margin: 0;
+      font-size: 12px;
+      font-weight: 900;
+      color: #203244;
+      line-height: 1.2;
+    }
+    .role{
+      margin: 2px 0 0;
+      font-size: 12px;
+      color: #6b7b88;
+      line-height: 1.25;
+    }
+
+    .meta{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .chip{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 11px;
       font-weight: 800;
-      font-size: 13px;
+      color: #2a3b4d;
+      white-space: nowrap;
     }
-    .dirText span{ display:block; font-weight: 800; }
+    .chip i{ color:#2e78df; }
 
     .note{
       border-radius: var(--radius2);
@@ -460,13 +513,6 @@
       line-height: 1.5;
     }
 
-    .modalGrid{
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 12px;
-      align-items: start;
-    }
-
     .cardLike{
       border-radius: 16px;
       border: 1px solid var(--border);
@@ -476,9 +522,9 @@
 
     /* Responsive */
     @media (max-width: 980px){
-      .hero{ grid-template-columns: 1fr; }
       .grid{ grid-template-columns: 1fr; }
-      .sideCard{ order: 2; }
+      .topbar{ grid-template-columns: 1fr; }
+      .helpBtn{ justify-self: start; }
     }
   </style>
 </head>
@@ -487,19 +533,20 @@
   <div class="wrap">
     <main class="panel" aria-label="Página 1 Mi Rol y Equipo">
 
-      <!-- Top: Back + Search -->
+      <!-- Top: Back + Ayuda -->
       <div class="topbar">
         <button class="backBtn" id="backBtn" type="button" aria-label="Regresar al inicio">
           <i class="fa-solid fa-arrow-left"></i>
           Inicio
         </button>
 
-        <form class="search" id="searchForm" role="search" aria-label="Buscar en la página">
-          <input id="q" type="search" placeholder="¿Qué necesitas resolver hoy?" autocomplete="off" />
-          <button type="submit" aria-label="Buscar">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </form>
+        <div class="helpBtn" id="helpBtn" role="button" tabindex="0" aria-label="Abrir Ayuda inteligente">
+          <div class="helpIcon" aria-hidden="true"><i class="fa-solid fa-circle-question"></i></div>
+          <div class="helpText">
+            Ayuda<br/>
+            <span>inteligente</span>
+          </div>
+        </div>
       </div>
 
       <!-- Hero -->
@@ -512,41 +559,7 @@
               <p class="subtitle">Aquí encontrarás el marco del rol, el objetivo de la capacitación y tu red de apoyo para operar en tu campus.</p>
             </div>
           </div>
-
-          <!-- Progreso de la página (visual, editable) -->
-          <div class="kpiRow" aria-label="Progreso">
-            <div>
-              <div class="label">Progreso de esta sección</div>
-              <div class="value"><span id="pctTxt">25%</span> completado</div>
-            </div>
-            <div style="width: 210px;">
-              <div style="height:8px;border-radius:999px;background:var(--track);overflow:hidden;">
-                <div id="progressFill" style="height:100%;width:25%;background:linear-gradient(90deg,var(--card1),var(--progress));border-radius:999px;"></div>
-              </div>
-            </div>
-          </div>
         </div>
-
-        <aside class="sideCard" aria-label="Panel lateral de estado">
-          <div class="kpiRow">
-            <div>
-              <div class="label">Sección actual</div>
-              <div class="value">Mi Rol y Equipo</div>
-            </div>
-            <div class="value"><i class="fa-solid fa-location-dot" style="color:#2e78df;"></i></div>
-          </div>
-
-          <div class="kpiRow">
-            <div>
-              <div class="label">Atajos</div>
-              <div class="value">Directorio y plan</div>
-            </div>
-            <div class="value"><i class="fa-solid fa-bolt" style="color:#2bb3b3;"></i></div>
-          </div>
-
-          <!-- Google Charts donut (mini) -->
-          <div id="donut" class="miniDonut" aria-label="Gráfico de avance"></div>
-        </aside>
       </section>
 
       <!-- Content -->
@@ -617,18 +630,39 @@
           </ul>
         </div>
 
-        <aside class="sideStack" aria-label="Accesos laterales">
-          <div class="directory" id="directoryBtn" role="button" tabindex="0" aria-label="Abrir Directorio de Contactos Clave">
-            <div class="dirIcon" aria-hidden="true"><i class="fa-solid fa-phone"></i></div>
-            <div class="dirText">
-              Directorio<br/>
-              <span>Contactos Clave</span>
+        <aside class="sideStack" aria-label="Directorio y nota">
+          <!-- Directorio por área (dropdown + fichas) -->
+          <div class="dirPanel" aria-label="Directorio de Contactos Clave por área">
+            <div class="dirHeader">
+              <h3>Directorio Contactos Clave</h3>
             </div>
+
+            <div class="selectWrap">
+              <select class="select" id="areaSelect" aria-label="Selecciona un área">
+                <option value="Raspberry">Raspberry</option>
+                <option value="Venues" selected>Venues</option>
+                <option value="Servicios Operativos">Servicios Operativos</option>
+                <option value="Planta física">Planta física</option>
+                <option value="Retail">Retail</option>
+                <option value="TI">TI</option>
+                <option value="TRES">TRES</option>
+                <option value="Finanzas">Finanzas</option>
+                <option value="Educación Continua">Educación Continua</option>
+                <option value="Patrocinios">Patrocinios</option>
+                <option value="Seguridad">Seguridad</option>
+                <option value="Talento">Talento</option>
+                <option value="Comunicación">Comunicación</option>
+                <option value="Centro de Ventas">Centro de Ventas</option>
+              </select>
+              <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+            </div>
+
+            <div class="cardsMini" id="contactsList" aria-label="Lista de contactos"></div>
           </div>
 
           <div class="note" aria-label="Nota">
             <h3>Tip de uso</h3>
-            <p>Este sitio es “caja de herramientas”: cada bloque abre un panel con contenido. Hoy está como plantilla, listo para que pegues texto, ligas o embeds.</p>
+            <p>Si un contacto es “Vacante” o “Pendiente”, úsalo como señal para escalar por la ruta de apoyo.</p>
           </div>
         </aside>
       </section>
@@ -644,26 +678,14 @@
           </div>
 
           <div class="modalBody">
-            <div class="modalGrid">
-              <div class="cardLike">
-                <h4 id="topicTitle">Tema</h4>
-                <p id="topicBody">
-                  Placeholder de contenido. Aquí puedes poner texto, bullets, pasos, links, imágenes, o un embed.
-                </p>
-              </div>
-
-              <div class="cardLike">
-                <h4>Mini visual (D3)</h4>
-                <p>Un pequeño indicador para darle vida sin llenar de colores.</p>
-                <div id="d3Mini" style="width:100%;height:160px;"></div>
-              </div>
+            <div class="cardLike">
+              <h4 id="topicTitle">Tema</h4>
+              <p id="topicBody">Placeholder de contenido. Aquí puedes poner texto, bullets, pasos, links, imágenes o embeds.</p>
             </div>
 
             <div class="cardLike">
               <h4>Recursos</h4>
-              <p>
-                Puedes enlazar documentos internos, plantillas, policy docs o videos. (Placeholder)
-              </p>
+              <p>Links a documentos internos, plantillas, policy docs o videos. (Placeholder)</p>
             </div>
           </div>
         </div>
@@ -674,9 +696,8 @@
 
   <script>
     // ============
-    // Config
+    // Topics (placeholder)
     // ============
-    const PAGE_PROGRESS = 25; // editable
     const TOPICS = {
       "Bienvenida y objetivo de la capacitación": {
         body: "Placeholder: explica el propósito, el alcance de la capacitación y qué resultados se esperan del rol en el campus."
@@ -688,7 +709,7 @@
         body: "Placeholder: mapa de apoyo (quién ayuda con qué), y ruta de escalamiento."
       },
       "Directorio de contactos clave": {
-        body: "Placeholder: lista o tabla de contactos clave. También puedes convertir esto en una página aparte si quieres."
+        body: "El directorio está disponible a la derecha por área. Selecciona un área para ver contactos."
       },
       "Plan 2026 para tu campus": {
         body: "Placeholder: objetivos 2026, cadencias, métricas, calendario, checklist por trimestre."
@@ -699,38 +720,176 @@
     };
 
     // ============
+    // Directorio: datos base (incluye los que nos diste)
+    // Nota: Teléfono no venía en tu tabla, se deja como '—'
+    // ============
+    const CONTACTS = [
+      // Venues
+      { area: "Venues", negocio:"Tecvenues", giro:"Tecvenues", contacto:"Jorge Gocher Enríquez", rol:"Director de Colaboraciones y Alianzas", correo:"jorge.gocher@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Venues", negocio:"Tecvenues", giro:"Empresarial y social", contacto:"Stephanie Haza Villarreal", rol:"Gerente comercial Venues", correo:"stephanie.haza@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Venues", negocio:"Tecvenues", giro:"Tecvenues", contacto:"Jorge Espinosa Puig", rol:"Director de Rettail y Venues", correo:"jordi.espinosa@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Venues", negocio:"Tecvenues", giro:"Espectáculos", contacto:"María Fernanda Mendoza Azuara", rol:"Líder Espectáculos", correo:"marifer.mendoza@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Venues", negocio:"Tecvenues", giro:"Filmaciones", contacto:"Laura Daniela Reyna Hernández", rol:"Líder Comercial de Entretenimiento", correo:"daniela.reyna@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Venues", negocio:"Tecvenues", giro:"Deportivo", contacto:"Bernardo Haro Bonilla", rol:"Líder Comercial Deportivo", correo:"bernardoharo@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Venues", negocio:"Tecvenues", giro:"Educativo", contacto:"Karla Abigail Gómez Espinosa", rol:"Líder Comercial Educativo", correo:"abi.gomez@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Venues", negocio:"Tecvenues", giro:"Empresarial y social", contacto:"Mariana Berenice López Mata", rol:"Especialista Operativo", correo:"mlopez@tec.mx", campus:"Nacional", telefono:"—" },
+
+      // Colaboraciones y Alianzas (lo meto en Venues por cercanía operativa; si quieres lo hacemos su propia área)
+      { area: "Venues", negocio:"Colaboraciones y Alianzas", giro:"Colaboraciones y Alianzas", contacto:"Cecilia Lartigue Martínez", rol:"Gerente de Alianzas y Nuevos Negocios", correo:"cecilia.lartigue@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Venues", negocio:"Colaboraciones y Alianzas", giro:"Colaboraciones y Alianzas", contacto:"Katye Marisol Álvarez Gonzalez", rol:"Coordinador de alianzas", correo:"katye.alvarez@tec.mx", campus:"Nacional", telefono:"—" },
+
+      // Retail
+      { area: "Retail", negocio:"Tecstores", giro:"Tecstore", contacto:"Pendiente", rol:"Responsable de tienda", correo:"", campus:"Nacional", telefono:"—" },
+
+      // Patrocinios
+      { area: "Patrocinios", negocio:"Patrocinios", giro:"Patrocinios", contacto:"Eduardo Hernández Calleros", rol:"Director de naming y patrocinios", correo:"eduardohc@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Patrocinios", negocio:"Patrocinios", giro:"Deportivo", contacto:"María Fernanda Malanco Leyva", rol:"Gerente patrocinios deportivos", correo:"fmalanco@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Patrocinios", negocio:"Patrocinios", giro:"Académicos y culturales", contacto:"Gabriela Guadalupe Posadas Hernández", rol:"Gerente patrocinios académicos y culturales", correo:"gabriela.posadas@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Patrocinios", negocio:"Patrocinios", giro:"Inmuebles", contacto:"Vacante", rol:"Gerente patrocinios inmuebles", correo:"", campus:"Nacional", telefono:"—" },
+      { area: "Patrocinios", negocio:"Patrocinios", giro:"Patrocinios Locales", contacto:"Marina Fernanda Reyes García", rol:"Gerente patrocinios locales", correo:"fernanda.reyes@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Patrocinios", negocio:"Patrocinios", giro:"Publicidad y medios", contacto:"Alejandra Favela Varona", rol:"Gerente patrocinios publicidad y medios", correo:"alejandra.favela@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Patrocinios", negocio:"Patrocinios", giro:"Nuevos Negocios", contacto:"Vacante", rol:"Gerente patrocinios nuevos negocios", correo:"", campus:"Nacional", telefono:"—" },
+      { area: "Patrocinios", negocio:"Patrocinios", giro:"Estrategia y Operación", contacto:"Roberto Cabada Olivas", rol:"Gerente de estrategia comercial", correo:"roberto.cabada@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Patrocinios", negocio:"Patrocinios", giro:"Estrategia y Operación", contacto:"Sergio Gerardo Otero Montoya", rol:"Líder de cuenta", correo:"sergio.otero.m@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Patrocinios", negocio:"Patrocinios", giro:"Estrategia y Operación", contacto:"Paulina Hernández Díaz", rol:"Líder de cuenta", correo:"paulina.hd@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Patrocinios", negocio:"Patrocinios", giro:"Estrategia y Operación", contacto:"María Martha Licón Sáenz", rol:"Especialista de propuestas", correo:"mlicon@tec.mx", campus:"Nacional", telefono:"—" },
+
+      // Planta física
+      { area: "Planta física", negocio:"Planta física", giro:"Logística y eventos", contacto:"Liliana Alicia Campos Garza", rol:"Líder de logística y eventos", correo:"liliana.campos@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Planta física", negocio:"Planta física", giro:"Planta física y movilidad", contacto:"Semaraim Evelyn Hernández y Hernández", rol:"Gerente de planta física y movilidad", correo:"semaraim@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Planta física", negocio:"Planta física", giro:"Dirección de Operaciones", contacto:"Jorge Armando Villarreal Villarreal", rol:"Gerente de Operación Tecvenues y Landing", correo:"jorge.villarreal@tec.mx", campus:"Nacional", telefono:"—" },
+
+      // Educación Continua (no venía como tal en tu lista; LIFE lo dejo como Educación Continua si quieres o lo movemos)
+      { area: "Educación Continua", negocio:"Vicerrectoria admisiones y desarrollo estudiantil", giro:"LIFE", contacto:"Luis Raúl Domínguez Blanco", rol:"Decano de Liderazgo y Formación Estudiantil/ Dir. Gestión LiFE Nacional", correo:"Luis.Raul@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Educación Continua", negocio:"Vicerrectoria admisiones y desarrollo estudiantil", giro:"LIFE", contacto:"Pille Kustala", rol:"Directora de Gestión de Programas LiFE", correo:"pille.kustala@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Educación Continua", negocio:"Vicerrectoria admisiones y desarrollo estudiantil", giro:"LIFE", contacto:"Martha Eugenia Sañudo Velázquez", rol:"Directora de Arte y Cultura", correo:"msanudo@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Educación Continua", negocio:"Vicerrectoria admisiones y desarrollo estudiantil", giro:"LIFE", contacto:"Emilio Alvarez Frangie", rol:"Director de Borregos Athletics", correo:"emilio.alvarez@tec.mx", campus:"Nacional", telefono:"—" },
+      { area: "Educación Continua", negocio:"Vicerrectoria admisiones y desarrollo estudiantil", giro:"LIFE", contacto:"Moraima Campbell Dávila", rol:"Directora de Liderazgo y Formación Estudiantil Región Monterrey", correo:"moraima@tec.mx", campus:"Monterrey", telefono:"—" },
+      { area: "Educación Continua", negocio:"Vicerrectoria admisiones y desarrollo estudiantil", giro:"LIFE", contacto:"Tathiana María Albelais León", rol:"Director de Liderazgo y Formación Estudiantil Región Norte", correo:"tathiana.albelais@tec.mx", campus:"Monterrey", telefono:"—" },
+
+      // Comunicación
+      { area: "Comunicación", negocio:"Mercadotecnia y Comunicación", giro:"Mercadotecnia y Comunicación", contacto:"Itziar Elorduy Suárez", rol:"Gerente de Comunicación Regional y Campus", correo:"sigifredo@tec.mx", campus:"Monterrey", telefono:"—" },
+      { area: "Comunicación", negocio:"Imagen física institucional", giro:"Imagen física institucional", contacto:"Edgar Alejandro Romo Rosas", rol:"Gerente de imagen física institucional", correo:"edgar.romo@tec.mx", campus:"Nacional", telefono:"—" },
+
+      // Seguridad
+      { area: "Seguridad", negocio:"ProTect", giro:"Dirección de Análisis y Control de Riesgos de Seguridad", contacto:"Rodolfo Elías Trujillo Carrillo", rol:"Líder Protect", correo:"rtrujillo@tec.mx", campus:"Monterrey", telefono:"—" },
+
+      // Planta física (Monterrey adicionales)
+      { area: "Planta física", negocio:"Planta física", giro:"Logística y eventos", contacto:"Chávez Ávila Gerardo", rol:"Coordinador de Espacios y Audiovisual", correo:"GCHAVEZA@TEC.MX", campus:"Monterrey", telefono:"—" },
+      { area: "Planta física", negocio:"Planta física", giro:"Logística y eventos", contacto:"Mancilla Nieto Ana Rebeca", rol:"Coordinador de Eventos", correo:"ANA.REBECA.MN@TEC.MX", campus:"Monterrey", telefono:"—" },
+      { area: "Planta física", negocio:"Planta física", giro:"Logística y eventos", contacto:"Camacho Garza Jessica Paola", rol:"Coordinador de Eventos y Salas de Cátedr", correo:"JESSICA.CAMACHO@TEC.MX", campus:"Monterrey", telefono:"—" },
+      { area: "Planta física", negocio:"Planta física", giro:"Planta física y movilidad", contacto:"González Cortéz Juan Abelardo", rol:"Coordinador Planta Física Expedition", correo:"JUAN.GONZALEZ@TEC.MX", campus:"Monterrey", telefono:"—" },
+      { area: "Planta física", negocio:"Planta física", giro:"Planta física y movilidad", contacto:"Rodríguez Medina Marco Antonio", rol:"Coordinador Venues, Parques y Skyspace", correo:"MARCO.RODRIGUEZ.MEDINA@TEC.MX", campus:"Monterrey", telefono:"—" },
+      { area: "Planta física", negocio:"Planta física", giro:"Logística y eventos", contacto:"Morales Hinojosa María Eugenia", rol:"Líder de Eventos", correo:"EMORALES@TEC.MX", campus:"Monterrey", telefono:"—" },
+      { area: "Planta física", negocio:"Planta física", giro:"Logística y eventos", contacto:"Campos Garza Liliana Alicia", rol:"Líder de Logística y Eventos", correo:"LILIANA.CAMPOS@TEC.MX", campus:"Monterrey", telefono:"—" },
+      { area: "Planta física", negocio:"Planta física", giro:"Planta física y movilidad", contacto:"Sanchez Guerrero Jesus Alberto", rol:"Líder de Plataformas de Servicios de Sostenibilidad", correo:"JESUS.SANCHEZG@TEC.MX", campus:"Monterrey", telefono:"—" },
+      { area: "Planta física", negocio:"Planta física", giro:"Logística y eventos", contacto:"Carrillo Rodríguez Felipe Israel", rol:"Supervisor de montaje", correo:"FELIPE.C.RODRIGUEZ@TEC.MX", campus:"Monterrey", telefono:"—" },
+      { area: "Planta física", negocio:"Planta física", giro:"Logística y eventos", contacto:"López Esparza Sandra Mariel", rol:"Supervisor de Montajes y Movimientos", correo:"SANDRA.M.LOPEZ@TEC.MX", campus:"Monterrey", telefono:"—" },
+
+      // Servicios Operativos (Vicepresidencia de campus - Dirección de Operaciones)
+      { area: "Servicios Operativos", negocio:"Vicepresidencia de campus", giro:"Dirección de Operaciones", contacto:"De Santiago Contreras Raúl Rubén", rol:"Director de Servicios Operativos Región", correo:"RDESANTI@TEC.MX", campus:"Monterrey", telefono:"—" },
+      { area: "Servicios Operativos", negocio:"Planta física", giro:"Planta física y movilidad", contacto:"Martínez Guzmán Erik Javier", rol:"Director de Sostenibilidad y Planta Físi", correo:"ERIK.MARTINEZ@TEC.MX", campus:"Monterrey", telefono:"—" },
+      { area: "Servicios Operativos", negocio:"Vicepresidencia de campus", giro:"Dirección de Operaciones", contacto:"Sánchez Molina Isidro Jesús", rol:"DSO EGADE", correo:"IJSANCHE@TEC.MX", campus:"Monterrey", telefono:"—" },
+      { area: "Servicios Operativos", negocio:"Vicepresidencia de campus", giro:"Dirección de Operaciones", contacto:"Veloz Macías Juan Salvador", rol:"DSO EIC", correo:"JUAN.SALVADOR.VELOZ@TEC.MX", campus:"Monterrey", telefono:"—" },
+      { area: "Servicios Operativos", negocio:"Vicepresidencia de campus", giro:"Dirección de Operaciones", contacto:"de la Rosa Estrada Gema Arnhem", rol:"DSO ENE/ECSG/EHE y DSA", correo:"GDELAROS@TEC.MX", campus:"Monterrey", telefono:"—" },
+      { area: "Servicios Operativos", negocio:"Vicepresidencia de campus", giro:"Dirección de Operaciones", contacto:"Chau Rodríguez Lucía del Socorro", rol:"DSO LiFE/EAAD", correo:"LUCIACHAU@TEC.MX", campus:"Monterrey", telefono:"—" },
+
+      // Raspberry
+      { area: "Raspberry", negocio:"Raspberry", giro:"Marketing", contacto:"Jazmin Gabriela Garcia Colunga", rol:"", correo:"jazmin.garcia@raspberry.mx", campus:"", telefono:"—" },
+      { area: "Raspberry", negocio:"Raspberry", giro:"Customer Success Manager", contacto:"Jair Vargas", rol:"", correo:"jair.vargas@raspberry.mx", campus:"", telefono:"—" },
+      { area: "Raspberry", negocio:"Raspberry", giro:"Líder de Habilitación Financiera", contacto:"Miriam Torres", rol:"", correo:"mjtm@raspberry.mx", campus:"", telefono:"—" },
+      { area: "Raspberry", negocio:"Raspberry", giro:"Ejecutivo Comercial", contacto:"Jorge Alberto Sanchez", rol:"Líder Comercial (KAM)", correo:"jorge.sanchez@raspberry.mx", campus:"Monterrey", telefono:"—" },
+      { area: "Raspberry", negocio:"Raspberry", giro:"Ejecutivo Comercial", contacto:"Lorena Rocha", rol:"Líder Comercial (KAM)", correo:"lorena.rocha@raspberry.mx", campus:"Monterrey", telefono:"—" },
+    ];
+
+    // ============
+    // Helpers
+    // ============
+    function initials(name){
+      const s = (name || "").trim();
+      if(!s) return "—";
+      if(["vacante","pendiente"].includes(s.toLowerCase())) return "!";
+      const parts = s.split(/\s+/).filter(Boolean);
+      const a = parts[0]?.[0] || "";
+      const b = parts[1]?.[0] || parts[0]?.[1] || "";
+      return (a + b).toUpperCase();
+    }
+
+    function safeText(v){
+      return (v === null || v === undefined || String(v).trim() === "") ? "—" : String(v).trim();
+    }
+
+    // ============
+    // Render directorio
+    // ============
+    const areaSelect = document.getElementById("areaSelect");
+    const contactsList = document.getElementById("contactsList");
+
+    function renderContacts(area){
+      contactsList.innerHTML = "";
+      const rows = CONTACTS.filter(c => c.area === area);
+
+      if(rows.length === 0){
+        const empty = document.createElement("div");
+        empty.className = "contactCard";
+        empty.innerHTML = `<p class="name" style="margin:0;">Sin contactos cargados</p>
+                           <p class="role" style="margin:0;">Agrega registros a CONTACTS para esta área.</p>`;
+        contactsList.appendChild(empty);
+        return;
+      }
+
+      rows.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "contactCard";
+
+        const mail = safeText(c.correo);
+        const phone = safeText(c.telefono);
+
+        card.innerHTML = `
+          <div class="contactTop">
+            <div class="avatar" aria-hidden="true">${initials(c.contacto)}</div>
+            <div>
+              <p class="name">${safeText(c.contacto)}</p>
+              <p class="role">${safeText(c.rol)}</p>
+            </div>
+          </div>
+
+          <div class="meta">
+            <span class="chip"><i class="fa-solid fa-briefcase"></i> ${safeText(c.negocio)} · ${safeText(c.giro)}</span>
+            <span class="chip"><i class="fa-solid fa-location-dot"></i> ${safeText(c.campus)}</span>
+          </div>
+
+          <div class="meta">
+            <span class="chip"><i class="fa-solid fa-phone"></i> ${phone}</span>
+            <span class="chip"><i class="fa-solid fa-envelope"></i> ${mail}</span>
+          </div>
+        `;
+        contactsList.appendChild(card);
+      });
+    }
+
+    areaSelect.addEventListener("change", () => renderContacts(areaSelect.value));
+    renderContacts(areaSelect.value);
+
+    // ============
     // Navegación
     // ============
-    const backBtn = document.getElementById("backBtn");
-    backBtn.addEventListener("click", () => window.location.href = "index.html");
+    document.getElementById("backBtn").addEventListener("click", () => window.location.href = "index.html");
 
     // ============
-    // Search (simple)
+    // Ayuda inteligente
     // ============
-    document.getElementById("searchForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const q = (document.getElementById("q").value || "").trim().toLowerCase();
-      if(!q) return;
-
-      const keys = Object.keys(TOPICS);
-      const hit = keys.find(k => k.toLowerCase().includes(q));
-      if(hit) openTopic(hit);
-      else alert("No encontré ese tema en esta página (placeholder).");
-    });
-
-    // ============
-    // Progress (D3)
-    // ============
-    function setProgress(p){
-      const clamped = Math.max(0, Math.min(100, p));
-      d3.select("#pctTxt").text(clamped.toFixed(0) + "%");
-      d3.select("#progressFill")
-        .transition()
-        .duration(650)
-        .ease(d3.easeCubicOut)
-        .style("width", clamped + "%");
+    const helpBtn = document.getElementById("helpBtn");
+    function openHelp(){
+      alert("Ayuda inteligente (placeholder). Aquí puedes abrir un chat/FAQ o llevarlo a ayuda.html.");
     }
-    setProgress(PAGE_PROGRESS);
+    helpBtn.addEventListener("click", openHelp);
+    helpBtn.addEventListener("keydown", (e) => {
+      if(e.key === "Enter" || e.key === " "){
+        e.preventDefault();
+        openHelp();
+      }
+    });
 
     // ============
     // Menu interactions + D3 hover lift
@@ -773,14 +932,11 @@
     function openModal(){
       overlay.style.display = "flex";
       overlay.setAttribute("aria-hidden", "false");
-      // focus close
       setTimeout(() => closeBtn.focus(), 0);
     }
     function closeModal(){
       overlay.style.display = "none";
       overlay.setAttribute("aria-hidden", "true");
-      // cleanup mini chart
-      d3.select("#d3Mini").selectAll("*").remove();
     }
 
     overlay.addEventListener("click", (e) => {
@@ -796,114 +952,12 @@
       modalTitle.textContent = topic;
       topicTitle.textContent = topic;
       topicBody.textContent = t.body;
-
       openModal();
-      drawMiniD3(topic);
     }
 
     document.getElementById("openAll").addEventListener("click", () => {
       openTopic("Bienvenida y objetivo de la capacitación");
     });
-
-    // ============
-    // Right: Directory quick open
-    // ============
-    const directoryBtn = document.getElementById("directoryBtn");
-    function openDirectory(){
-      openTopic("Directorio de contactos clave");
-    }
-    directoryBtn.addEventListener("click", openDirectory);
-    directoryBtn.addEventListener("keydown", (e) => {
-      if(e.key === "Enter" || e.key === " "){
-        e.preventDefault();
-        openDirectory();
-      }
-    });
-
-    // ============
-    // D3 mini visual (simple progress ring)
-    // ============
-    function drawMiniD3(seed){
-      const el = document.getElementById("d3Mini");
-      const w = el.clientWidth;
-      const h = 150;
-      const r = Math.min(w, h) * 0.33;
-
-      const svg = d3.select(el).append("svg")
-        .attr("width", w)
-        .attr("height", h);
-
-      const g = svg.append("g")
-        .attr("transform", `translate(${w/2},${h/2})`);
-
-      // pseudo-random stable per topic
-      const val = (seed.length * 17) % 100; // 0..99
-
-      const arc = d3.arc().innerRadius(r-10).outerRadius(r);
-      const bg = d3.arc().innerRadius(r-10).outerRadius(r).startAngle(0).endAngle(2*Math.PI);
-
-      g.append("path")
-        .attr("d", bg)
-        .attr("fill", "#e7edf4");
-
-      const fg = g.append("path")
-        .datum({ endAngle: 0 })
-        .attr("fill", "#2e78df");
-
-      fg.transition()
-        .duration(700)
-        .ease(d3.easeCubicOut)
-        .attrTween("d", function(){
-          const i = d3.interpolate(0, (2*Math.PI)*(val/100));
-          return function(t){
-            return arc({ startAngle: 0, endAngle: i(t) });
-          };
-        });
-
-      g.append("text")
-        .attr("text-anchor", "middle")
-        .attr("dy", "0.35em")
-        .attr("fill", "#2a3b4d")
-        .attr("font-size", 14)
-        .attr("font-weight", 900)
-        .text(val + "%");
-
-      g.append("text")
-        .attr("text-anchor", "middle")
-        .attr("dy", "1.9em")
-        .attr("fill", "#6b7b88")
-        .attr("font-size", 11)
-        .attr("font-weight", 700)
-        .text("Indicador");
-    }
-
-    // ============
-    // Google Charts: donut de avance real de la página
-    // ============
-    google.charts.load("current", { packages: ["corechart"] });
-    google.charts.setOnLoadCallback(drawDonut);
-
-    function drawDonut(){
-      const data = google.visualization.arrayToDataTable([
-        ["Estado", "Valor"],
-        ["Completado", PAGE_PROGRESS],
-        ["Restante", 100 - PAGE_PROGRESS]
-      ]);
-
-      const options = {
-        pieHole: 0.68,
-        legend: { position: "none" },
-        backgroundColor: "transparent",
-        chartArea: { left: 10, top: 10, width: "90%", height: "90%" },
-        tooltip: { trigger: "none" },
-        pieSliceText: "none"
-      };
-
-      const chart = new google.visualization.PieChart(document.getElementById("donut"));
-      chart.draw(data, options);
-
-      window.addEventListener("resize", () => chart.draw(data, options), { passive: true });
-    }
   </script>
 </body>
 </html>
