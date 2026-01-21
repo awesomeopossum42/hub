@@ -1,4 +1,4 @@
-<!-- index.html -->
+<!-- index.html (ajustado) -->
 <!doctype html>
 <html lang="es">
 <head>
@@ -10,7 +10,7 @@
   <script src="https://www.gstatic.com/charts/loader.js"></script>
   <!-- D3 -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
-  <!-- (Otros etc) Icons: Font Awesome (opcional, solo para íconos) -->
+  <!-- Icons -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
@@ -59,52 +59,6 @@
       padding: 8px 8px 0;
     }
 
-    /* Top search */
-    .topbar{
-      display: flex;
-      justify-content: center;
-      margin: 8px auto 34px;
-    }
-
-    .search{
-      width: min(640px, 100%);
-      display: grid;
-      grid-template-columns: 1fr 52px;
-      gap: 0;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: var(--shadow2);
-      border: 1px solid #eef2f7;
-      background: #fff;
-    }
-
-    .search input{
-      padding: 14px 16px;
-      border: 0;
-      outline: none;
-      font-size: 14px;
-      color: var(--ink);
-    }
-
-    .search input::placeholder{
-      color: #9aa7b3;
-    }
-
-    .search button{
-      border: 0;
-      cursor: pointer;
-      background: #2e78df;
-      display: grid;
-      place-items: center;
-      transition: transform .12s ease, filter .12s ease;
-    }
-    .search button:active{ transform: scale(.98); }
-    .search button:focus-visible{
-      outline: 3px solid var(--focus);
-      outline-offset: 2px;
-    }
-    .search button i{ color: #fff; font-size: 16px; }
-
     /* Cards */
     .cards{
       display: grid;
@@ -138,7 +92,6 @@
       height: 160px;
       background: rgba(255,255,255,.18);
       border-radius: 999px;
-      filter: blur(0px);
       transform: rotate(12deg);
       pointer-events:none;
     }
@@ -188,7 +141,7 @@
     }
     .card .chev i{ color: #fff; font-size: 14px; }
 
-    /* Footer area like the screenshot */
+    /* Footer area (solo ayuda) */
     .footerRow{
       margin-top: 36px;
       display: grid;
@@ -198,45 +151,7 @@
       padding: 0 10px 14px;
     }
 
-    .progressWrap{
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 14px;
-      align-items: center;
-      color: var(--muted);
-    }
-
-    .progressLabel{
-      display: grid;
-      gap: 4px;
-      min-width: 140px;
-    }
-    .progressLabel .pct{
-      font-weight: 700;
-      color: #2a3b4d;
-      font-size: 14px;
-    }
-    .progressLabel .txt{
-      font-size: 12px;
-      color: #7f8b96;
-    }
-
-    .progressTrack{
-      height: 8px;
-      border-radius: 999px;
-      background: var(--track);
-      overflow: hidden;
-      position: relative;
-    }
-    .progressFill{
-      height: 100%;
-      width: 60%;
-      background: linear-gradient(90deg, var(--card1), var(--progress));
-      border-radius: 999px;
-      transform-origin: left center;
-    }
-
-    /* Right side directory */
+    /* Right side help */
     .directory{
       display: grid;
       grid-template-columns: 44px 1fr;
@@ -270,14 +185,6 @@
       font-weight: 700;
     }
 
-    /* Tiny chart container */
-    .miniChart{
-      margin-top: 6px;
-      width: 160px;
-      height: 44px;
-      opacity: .9;
-    }
-
     /* Responsive */
     @media (max-width: 920px){
       .cards{ grid-template-columns: 1fr; }
@@ -291,16 +198,6 @@
 <body>
   <div class="wrap">
     <main class="panel" aria-label="Inicio de capacitación">
-
-      <!-- Search bar -->
-      <div class="topbar">
-        <form class="search" id="searchForm" role="search" aria-label="Buscar en la capacitación">
-          <input id="q" type="search" placeholder="¿Qué necesitas resolver hoy?" autocomplete="off" />
-          <button type="submit" aria-label="Buscar">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </form>
-      </div>
 
       <!-- Cards -->
       <section class="cards" aria-label="Secciones principales">
@@ -332,29 +229,15 @@
         </article>
       </section>
 
-      <!-- Footer: progress + directory -->
-      <section class="footerRow" aria-label="Estado y accesos rápidos">
-        <div class="progressWrap">
-          <div class="progressLabel">
-            <div class="pct" id="pctTxt">60%</div>
-            <div class="txt">Progreso de Capacitación</div>
-          </div>
+      <!-- Footer: Ayuda inteligente -->
+      <section class="footerRow" aria-label="Accesos rápidos">
+        <div></div>
 
-          <div>
-            <div class="progressTrack" aria-label="Barra de progreso">
-              <div class="progressFill" id="progressFill"></div>
-            </div>
-
-            <!-- Google Charts mini (ejemplo) -->
-            <div id="miniChart" class="miniChart" aria-label="Mini gráfico de progreso"></div>
-          </div>
-        </div>
-
-        <div class="directory" id="directoryBtn" role="button" tabindex="0" aria-label="Abrir Directorio de Contactos Clave">
-          <div class="dirIcon" aria-hidden="true"><i class="fa-solid fa-phone"></i></div>
+        <div class="directory" id="helpBtn" role="button" tabindex="0" aria-label="Abrir Ayuda inteligente">
+          <div class="dirIcon" aria-hidden="true"><i class="fa-solid fa-circle-question"></i></div>
           <div class="dirText">
-            Directorio<br/>
-            <span>Contactos Clave</span>
+            Ayuda<br/>
+            <span>inteligente</span>
           </div>
         </div>
       </section>
@@ -363,11 +246,6 @@
   </div>
 
   <script>
-    // ============
-    // Config
-    // ============
-    const TRAINING_PROGRESS = 60; // cambia este número y se actualiza todo
-
     // ============
     // Navegación
     // ============
@@ -387,41 +265,24 @@
       });
     });
 
-    // Directorio (por ahora: modal simple)
-    const directoryBtn = document.getElementById("directoryBtn");
-    function openDirectory(){
-      alert("Directorio de Contactos Clave (placeholder). Aquí puedes abrir un modal, una página (directorio.html) o un panel lateral.");
+    // ============
+    // Ayuda inteligente (placeholder)
+    // ============
+    const helpBtn = document.getElementById("helpBtn");
+    function openHelp(){
+      alert("Ayuda inteligente (placeholder). Aquí puedes abrir un chat/FAQ, un modal, o llevarlo a ayuda.html.");
     }
-    directoryBtn.addEventListener("click", openDirectory);
-    directoryBtn.addEventListener("keydown", (e) => {
+    helpBtn.addEventListener("click", openHelp);
+    helpBtn.addEventListener("keydown", (e) => {
       if(e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        openDirectory();
+        openHelp();
       }
-    });
-
-    // Search (demo)
-    document.getElementById("searchForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const q = (document.getElementById("q").value || "").trim().toLowerCase();
-      if(!q) return;
-
-      // mapa simple (puedes expandirlo a indexación real)
-      const map = [
-        { k: ["rol", "equipo", "red", "contactos", "compensaciones", "plan 2026"], href: "rol.html" },
-        { k: ["día", "dia", "paso", "proceso", "operativo", "catálogo", "herramientas", "salesforce", "espacios"], href: "dia.html" },
-        { k: ["resultados", "indicadores", "mido", "reportes", "tableros", "seguimiento"], href: "resultados.html" },
-      ];
-
-      const hit = map.find(item => item.k.some(term => q.includes(term)));
-      if(hit) go(hit.href);
-      else alert("No encontré una sección con ese término (placeholder).");
     });
 
     // ============
     // D3: animaciones suaves de estilo
     // ============
-    // Hover "lift" + aparición de flecha
     d3.selectAll(".card")
       .on("mouseenter", function(){
         d3.select(this)
@@ -441,52 +302,6 @@
           .style("opacity", 0)
           .style("transform", "translateY(6px)");
       });
-
-    // D3: barra de progreso animada
-    const pctTxt = d3.select("#pctTxt");
-    const fill = d3.select("#progressFill");
-
-    function setProgress(p){
-      const clamped = Math.max(0, Math.min(100, p));
-      pctTxt.text(clamped.toFixed(0) + "%");
-      fill
-        .transition()
-        .duration(650)
-        .ease(d3.easeCubicOut)
-        .style("width", clamped + "%");
-    }
-    setProgress(TRAINING_PROGRESS);
-
-    // ============
-    // Google Charts: mini gráfico (barra horizontal)
-    // ============
-    google.charts.load("current", { packages: ["corechart"] });
-    google.charts.setOnLoadCallback(drawMini);
-
-    function drawMini(){
-      // Un mini "stacked bar" para reforzar el progreso sin meter colores estridentes
-      const data = google.visualization.arrayToDataTable([
-        ["Estado", "Completado", "Restante"],
-        ["Progreso", TRAINING_PROGRESS, 100 - TRAINING_PROGRESS]
-      ]);
-
-      const options = {
-        legend: { position: "none" },
-        backgroundColor: "transparent",
-        isStacked: true,
-        chartArea: { left: 0, top: 8, width: "100%", height: "70%" },
-        hAxis: { minValue: 0, maxValue: 100, gridlines: { color: "transparent" }, baselineColor: "transparent", textPosition: "none" },
-        vAxis: { gridlines: { color: "transparent" }, baselineColor: "transparent", textPosition: "none" },
-        tooltip: { trigger: "none" },
-        // Colores: dejamos que Google elija por defecto para no sobrecargar. Si quieres fijos, dímelo.
-      };
-
-      const chart = new google.visualization.BarChart(document.getElementById("miniChart"));
-      chart.draw(data, options);
-
-      // Redraw on resize
-      window.addEventListener("resize", () => chart.draw(data, options), { passive: true });
-    }
   </script>
 </body>
 </html>
