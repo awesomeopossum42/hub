@@ -1,4 +1,4 @@
-<!-- dia.html -->
+<!-- dia.html (actualizado) -->
 <!doctype html>
 <html lang="es">
 <head>
@@ -30,9 +30,6 @@
       --radius: 16px;
       --radius2: 18px;
 
-      --track: #e7edf4;
-      --progress: #2bb3b3;
-
       --focus: rgba(31,111,214,.25);
 
       --soft: #f6f9fc;
@@ -61,13 +58,10 @@
     }
 
     /* Top row: back + search */
-    .topbar{
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 14px;
-      align-items: center;
-      margin: 8px 0 18px;
-    }
+.topbar{
+  display: flex;
+  justify-content: flex-start;
+}
 
     .backBtn{
       display: inline-grid;
@@ -163,7 +157,7 @@
       grid-template-columns: 44px 1fr;
       gap: 12px;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 2px;
     }
     .badge{
       width: 44px;
@@ -225,13 +219,11 @@
     }
 
     /* Content grid */
-    .grid{
-      display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: 18px;
-      align-items: start;
-      margin-top: 10px;
-    }
+.grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
 
     .section{
       border-radius: var(--radius2);
@@ -346,7 +338,8 @@
       gap: 16px;
     }
 
-    .directory{
+    /* Salesforce button (reemplaza Directorio) */
+    .sfBtn{
       display: grid;
       grid-template-columns: 44px 1fr;
       gap: 12px;
@@ -359,25 +352,37 @@
       cursor: pointer;
       user-select: none;
       transition: transform .12s ease;
+      text-decoration: none;
+      color: inherit;
     }
-    .directory:active{ transform: scale(.99); }
-    .dirIcon{
+    .sfBtn:active{ transform: scale(.99); }
+    .sfBtn:focus-visible{
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+    .sfIcon{
       width: 44px;
       height: 44px;
       border-radius: 999px;
-      background: #2e78df;
+      background: #1f6fd6;
       display: grid;
       place-items: center;
-      box-shadow: 0 10px 20px rgba(46,120,223,.25);
+      box-shadow: 0 10px 20px rgba(31,111,214,.22);
     }
-    .dirIcon i{ color:#fff; font-size: 18px; }
-    .dirText{
+    .sfIcon i{ color:#fff; font-size: 18px; }
+    .sfText{
       line-height: 1.05;
       color: #2a3b4d;
-      font-weight: 800;
+      font-weight: 900;
       font-size: 13px;
     }
-    .dirText span{ display:block; font-weight: 800; }
+    .sfText small{
+      display:block;
+      margin-top: 4px;
+      font-weight: 800;
+      color: #6a7a87;
+      font-size: 11px;
+    }
 
     .note{
       border-radius: var(--radius2);
@@ -494,12 +499,6 @@
           Inicio
         </button>
 
-        <form class="search" id="searchForm" role="search" aria-label="Buscar en la página">
-          <input id="q" type="search" placeholder="¿Qué necesitas resolver hoy?" autocomplete="off" />
-          <button type="submit" aria-label="Buscar">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </form>
       </div>
 
       <!-- Hero -->
@@ -512,40 +511,8 @@
               <p class="subtitle">Procesos, herramientas y guías para ejecutar el día a día con claridad y consistencia.</p>
             </div>
           </div>
-
-          <div class="kpiRow" aria-label="Progreso">
-            <div>
-              <div class="label">Progreso de esta sección</div>
-              <div class="value"><span id="pctTxt">35%</span> completado</div>
-            </div>
-            <div style="width: 210px;">
-              <div style="height:8px;border-radius:999px;background:var(--track);overflow:hidden;">
-                <div id="progressFill" style="height:100%;width:35%;background:linear-gradient(90deg,var(--card2),var(--card3));border-radius:999px;"></div>
-              </div>
-            </div>
-          </div>
+          <!-- (Quitado) Progreso de esta sección -->
         </div>
-
-        <aside class="sideCard" aria-label="Panel lateral de estado">
-          <div class="kpiRow">
-            <div>
-              <div class="label">Sección actual</div>
-              <div class="value">Mi Día a Día</div>
-            </div>
-            <div class="value"><i class="fa-solid fa-location-dot" style="color:#2e78df;"></i></div>
-          </div>
-
-          <div class="kpiRow">
-            <div>
-              <div class="label">Objetivo</div>
-              <div class="value">Ejecución paso a paso</div>
-            </div>
-            <div class="value"><i class="fa-solid fa-route" style="color:#2bb3b3;"></i></div>
-          </div>
-
-          <!-- Google Charts area (mini) -->
-          <div id="miniArea" class="miniArea" aria-label="Gráfico de actividad"></div>
-        </aside>
       </section>
 
       <!-- Content -->
@@ -617,13 +584,15 @@
         </div>
 
         <aside class="sideStack" aria-label="Accesos laterales">
-          <div class="directory" id="directoryBtn" role="button" tabindex="0" aria-label="Abrir Directorio de Contactos Clave">
-            <div class="dirIcon" aria-hidden="true"><i class="fa-solid fa-phone"></i></div>
-            <div class="dirText">
-              Directorio<br/>
-              <span>Contactos Clave</span>
+
+          <!-- Reemplaza "Directorio Contactos Clave" por botón Salesforce -->
+          <a class="sfBtn" id="sfBtn" href="https://login.salesforce.com/" target="_blank" rel="noopener" aria-label="Ir a Salesforce">
+            <div class="sfIcon" aria-hidden="true"><i class="fa-brands fa-salesforce"></i></div>
+            <div class="sfText">
+              Ir a Salesforce
+              <small>Abrir CRM en nueva pestaña</small>
             </div>
-          </div>
+          </a>
 
           <div class="note" aria-label="Nota">
             <h3>Tip de uso</h3>
@@ -670,9 +639,8 @@
 
   <script>
     // ============
-    // Config
+    // Config (sin progreso de sección)
     // ============
-    const PAGE_PROGRESS = 35; // editable
 
     // Checklist por tema (placeholder, puedes reemplazar por tu proceso real)
     const CHECKS = {
@@ -731,30 +699,6 @@
     // ============
     // Search (simple)
     // ============
-    document.getElementById("searchForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const q = (document.getElementById("q").value || "").trim().toLowerCase();
-      if(!q) return;
-
-      const keys = Object.keys(TOPICS);
-      const hit = keys.find(k => k.toLowerCase().includes(q));
-      if(hit) openTopic(hit);
-      else alert("No encontré ese tema en esta página (placeholder).");
-    });
-
-    // ============
-    // Progress (D3)
-    // ============
-    function setProgress(p){
-      const clamped = Math.max(0, Math.min(100, p));
-      d3.select("#pctTxt").text(clamped.toFixed(0) + "%");
-      d3.select("#progressFill")
-        .transition()
-        .duration(650)
-        .ease(d3.easeCubicOut)
-        .style("width", clamped + "%");
-    }
-    setProgress(PAGE_PROGRESS);
 
     // ============
     // Hover lift
@@ -827,11 +771,6 @@
       openTopic("Proceso comercial");
     });
 
-    // Directory quick open (placeholder)
-    document.getElementById("directoryBtn").addEventListener("click", () => {
-      alert("Directorio de Contactos Clave (placeholder). Si quieres, lo conectamos a directorio.html o a un modal con tabla.");
-    });
-
     // ============
     // Checklist renderer (simple)
     // ============
@@ -871,7 +810,6 @@
         cb.type = "checkbox";
         cb.style.marginTop = "2px";
         cb.addEventListener("change", () => {
-          // solo demo: podrías persistir en localStorage
           cb.parentElement.style.opacity = cb.checked ? ".75" : "1";
         });
 
@@ -906,7 +844,6 @@
       // pseudo-random stable completion count (0..6) per topic
       const done = (seed.length * 3) % (steps + 1);
 
-      const x0 = pad;
       const y0 = 22;
 
       svg.append("text")
@@ -919,7 +856,7 @@
 
       const scale = d3.scaleLinear()
         .domain([0, steps])
-        .range([x0, w - pad]);
+        .range([pad, w - pad]);
 
       // Background segments
       for(let i=0;i<steps;i++){
@@ -960,8 +897,6 @@
     // ============
     // Google Charts mini area (actividad demo)
     // ============
-    google.charts.load("current", { packages: ["corechart"] });
-    google.charts.setOnLoadCallback(drawMiniArea);
 
     function drawMiniArea(){
       const data = google.visualization.arrayToDataTable([
